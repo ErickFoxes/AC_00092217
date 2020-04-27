@@ -10,4 +10,25 @@ ADD ax,7d
 mov bx,5d
 DIV bx
 
+mov cl, "M"
+mov [200h], cl
+mov cl, "E"
+mov [201h], cl
+mov cl, "R"
+mov [202h], cl
+mov cl, "E"
+mov [203h], cl
+mov cl, "C"
+mov [204h], cl
+mov cl, "U"
+mov [205h], cl
+mov cl, "P"
+mov [206h], cl
+mov cl, "E"
+mov [207h], cl
+mov cl, "R"
+mov [208h], cl
+mov cl, "O"
+mov [209h], cl
+
 int 10h
