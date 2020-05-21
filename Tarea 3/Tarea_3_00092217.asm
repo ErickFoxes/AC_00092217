@@ -5,6 +5,8 @@ section .text
 	call 	texto	
 	call 	cursor
 	call 	phrase
+	call 	phrase2
+	call 	phrase3
 	call	kbwait
 
 	int 	20h
@@ -35,13 +37,27 @@ kbwait: mov 	ax, 0000h
 
 m_cursr:mov 	ah, 02h
 	mov 	dx, di  ; columna
-	mov 	dh, 12d ; fila
+	mov 	dh, 1d ; fila
+	mov 	bh, 0h
+	int 	10h
+	ret
+	
+m2cursr:mov 	ah, 02h
+	mov 	dx, di  ; columna
+	mov 	dh, 4d ; fila
 	mov 	bh, 0h
 	int 	10h
 	ret
 
-phrase:	mov 	di, 29d
-lupi:	mov 	cl, [msg+di-29d]
+m3cursr:mov 	ah, 02h
+	mov 	dx, di  ; columna
+	mov 	dh, 7d ; fila
+	mov 	bh, 0h
+	int 	10h
+	ret
+
+phrase:	mov 	di, 10d
+lupi:	mov 	cl, [msg+di-10d]
 	call    m_cursr
 	call 	w_char
 	inc	di
@@ -49,7 +65,31 @@ lupi:	mov 	cl, [msg+di-29d]
 	jb	lupi
 	ret
 
+phrase2:mov 	di, 20d
+lupi2:	mov 	cl, [msg2+di-20d]
+	call    m2cursr
+	call 	w_char
+	inc	di
+	cmp 	di, len2
+	jb	lupi2
+	ret
+
+phrase3:mov 	di, 30d
+lupi3:	mov 	cl, [msg3+di-30d]
+	call    m3cursr
+	call 	w_char
+	inc	di
+	cmp 	di, len3
+	jb	lupi3
+	ret
+
 
 section .data
-msg	db 	"Mami que tu quiere? "
-len 	equ	$-msg+29d
+msg	db 	"Clases no quiero";Haiku
+len 	equ	$-msg+10d
+
+msg2	db 	"Pero mi titulo si"
+len2 	equ	$-msg2+20d
+
+msg3	db 	"socarla debo"
+len3 	equ	$-msg3+30d
