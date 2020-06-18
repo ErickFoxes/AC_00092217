@@ -1,29 +1,19 @@
-org	100h
+org 	100h
 
 section .text
 
-	call 	texto  	
-
-	xor 	si, si
-	xor 	di, di
-   	mov     cx, 0d
-	mov 	ax,cx
-lupi:	cmp 	di, 5d 
-	je	nota
-	call 	kb
-	inc 	di	
-	mov	[300h+si], al 
+	xor 	si, si 	;lo mimso que: mov si, 0000h
+lupi:	call 	kb
+	cmp 	al, "$"
+	je	mostrar
+	mov	[300h+si], al ; CS:0300h en adelante
 	inc 	si
 	jmp 	lupi
 
-nota:	mov	[300h+si], ax
-	inc 	si
-	call 	mostrar
+mostrar:mov	byte [300h+si], "$"
+	call 	w_strng
 
-mostrar:call 	w_strng
-
-	call 	kb
-
+	call 	kb	; solo detenemos la ejecución
 	int 	20h
 
 texto:	mov 	ah, 00h
@@ -31,24 +21,11 @@ texto:	mov 	ah, 00h
 	int 	10h
 	ret
 
-kb:	mov	ah, 00h 
-	ADD 	ax,[300h+si]
-	mov	bx, 2d
-	DIV 	bx
-	int 	16h	
-	ret	
+kb: 	mov	ah, 7h
+	int 	21h
+	ret
 
-w_strng:mov	ah, 13h
-	mov 	al, 01h 
-	mov 	bh, 00h
-	mov	bl, 00000100b 
-	mov	cx, si 
-	mov	dl, 43d ; columna inicial
-	mov	dh, 17d	; fila inicial
-	
-	push 	cs 
-	pop	es 
-	mov	bp, 300h
-
-	int 10h
+w_strng:mov	ah, 09h
+	mov 	dx, 300h
+	int 	21h
 	ret
