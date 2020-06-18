@@ -5,12 +5,20 @@ section .text
 	call 	texto  	
 
 	xor 	si, si
-lupi:	call 	kb
-	cmp 	al, "$" 
-	je	mostrar
+	xor 	di, di
+   	mov     cx, 0d
+	mov 	ax,cx
+lupi:	cmp 	di, 5d 
+	je	nota
+	call 	kb
+	inc 	di	
 	mov	[300h+si], al 
 	inc 	si
 	jmp 	lupi
+
+nota:	mov	[300h+si], ax
+	inc 	si
+	call 	mostrar
 
 mostrar:call 	w_strng
 
@@ -24,6 +32,9 @@ texto:	mov 	ah, 00h
 	ret
 
 kb:	mov	ah, 00h 
+	ADD 	ax,[300h+si]
+	mov	bx, 2d
+	DIV 	bx
 	int 	16h	
 	ret	
 
