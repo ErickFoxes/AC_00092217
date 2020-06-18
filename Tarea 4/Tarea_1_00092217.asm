@@ -29,6 +29,7 @@ mostrar:mov dx, nl
 	call 	w_strng
 	cmp	al,4d
 	je	nota4
+	jmp 	w_fin
 
 nota4:	mov 	dx, msg2
         jmp     mostra2
@@ -56,7 +57,13 @@ w_meni:	mov dx,  msg
 	int 21h
 	ret
 
+w_fin:	mov dx,  msg3
+	mov ah, 9
+	int 21h
+	ret
+
 section .data
 msg	db 	"Digite cinco datos $";Haiku
 msg2	db 	"Me recupero $"
+msg3	db 	"adiu $"
 nl	db 	0xA, 0xD, "$"
